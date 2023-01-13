@@ -3,6 +3,7 @@
 @section('title', 'Home')
 @section('content')
 <div class="row mt-5">
+
     <div class="col-xl-12 mb-5 mb-xl-0">
         <form method="POST" action="{{route('schedule.store')}}">
             @csrf
@@ -25,6 +26,20 @@
                         </div>
                     </div>
                 @endif
+
+                @if (session('errors'))
+                    <div class="alert alert-danger" role="alert">
+                        Algunos de tus dias han sido desactivados, antes de activarlos de nuevo, asegurate de corregir lo siguiente:
+                        <ul>
+                            @foreach (session('errors') as $error)
+                                <li>{{ $error }}</li>
+                            @endforeach
+
+                        </ul>
+
+                    </div>
+                @endif
+
                 <div class="table-responsive bg-transparent">
                     <!-- Projects table -->
                     <table class="table align-items-center table-flush">
@@ -38,7 +53,11 @@
                         </thead>
                         <tbody class="list">
                             @foreach($workDays as $key => $workDay)
-                                <tr>
+                                <tr
+                                    @if( session('arrayInc') && in_array($key, session('arrayInc')) )
+                                        class="alert-danger"
+                                    @endif
+                                >
 
                                     <th scope="row" class="text-white">
                                         {{$days[$key]}}

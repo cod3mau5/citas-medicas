@@ -50,29 +50,50 @@ class ScheduleController extends Controller
         $errors = [];
 
         for ($i=0; $i<7; ++$i) {
-            if ($morning_start[$i] > $morning_end[$i]) {
-                $errors []= 'Las horas del turno mañana son inconsistentes para el día ' . $this->days[$i] . '.';
+//            dd( Carbon::parse($morning_start[0])->gt(Carbon::parse($morning_end[0])) );
+
+            $isInconsistent=false;
+            if(empty($arrayInc))
+                $arrayInc=[];
+
+            if (Carbon::parse($morning_start[$i])->gt(Carbon::parse($morning_end[$i]))) {
+                $isInconsistent = true;
+                $errors [] = 'Las horas de inicio no pueden ser mayores que las horas de fin el dia ' . $this->days[$i] . ' por la mañana.';
+                $arrayInc[]= $i;
             }
-            if ($afternoon_start[$i] > $afternoon_end[$i]) {
-                $errors []= 'Las horas del turno tarde son inconsistentes para el día ' . $this->days[$i] . '.';
+            if (Carbon::parse($afternoon_start[$i])->gt(Carbon::parse($afternoon_end[$i]))) {
+                $isInconsistent = true;
+                $errors [] = 'Las horas de inicio no pueden ser mayores que las horas de fin el dia ' . $this->days[$i] . ' por la tarde.';
+                $arrayInc[]= $i;
             }
+
+            if (Carbon::parse($morning_start[$i])->eq(Carbon::parse($morning_end[$i]))) {
+                $isInconsistent = true;
+                $errors [] = 'Las horas son iguales el dia ' . $this->days[$i] . ' por la mañana.';
+                $arrayInc[]= $i;
+            }
+            if (Carbon::parse($afternoon_start[$i])->eq(Carbon::parse($afternoon_end[$i]))) {
+                $isInconsistent = true;
+                $errors [] = 'Las horas son iguales el dia ' . $this->days[$i] . ' por la tarde.';
+                $arrayInc[]= $i;
+            }
+
+
 
             WorkDay::updateOrCreate([
                 'day' => $i,
                 'user_id' => auth()->id()
             ], [
-                'active' => in_array($i, $active),
-
+                'active' => (in_array($i, $active) && !$isInconsistent) ? true : false,
                 'morning_start' => $morning_start[$i],
                 'morning_end' => $morning_end[$i],
-
                 'afternoon_start' => $afternoon_start[$i],
                 'afternoon_end' => $afternoon_end[$i]
             ]);
         }
 
         if (count($errors) > 0)
-            return back()->with(compact('errors'));
+            return back()->with(compact('errors','arrayInc'));
 
         $notification = 'Los cambios se han guardado correctamente.';
         return back()->with(compact('notification'));
