@@ -7,26 +7,26 @@
 @endif
         <ul class="navbar-nav">
             @if (auth()->user()->role == 'admin') {{-- role == 'admin' --}}
-            <li class="nav-item">
-                <a class="nav-link" href="{{route('home')}}">
-                <i class="ni ni-tv-2 text-default"></i> Dashboard
-                </a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="{{route('specialties.index')}}">
-                <i class="ni ni-paper-diploma text-blue"></i> Especialidades
-                </a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="{{route('doctors.index')}}">
-                <i class="ni ni-badge text-orange"></i> Médicos
-                </a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="{{route('patients.index')}}">
-                <i class="ni ni-single-02 text-info"></i> Pacientes
-                </a>
-            </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{{route('home')}}">
+                    <i class="ni ni-tv-2 text-default"></i> Dashboard
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{{route('specialties.index')}}">
+                    <i class="ni ni-paper-diploma text-blue"></i> Especialidades
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{{route('doctors.index')}}">
+                    <i class="ni ni-badge text-orange"></i> Médicos
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{{route('patients.index')}}">
+                    <i class="ni ni-single-02 text-info"></i> Pacientes
+                    </a>
+                </li>
              @elseif(auth()->user()->role == 'doctor') {{-- role == 'doctor' --}}
                 <li class="nav-item">
                     <a class="nav-link" href="{{route('schedule.edit')}}">

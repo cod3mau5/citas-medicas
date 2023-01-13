@@ -21,6 +21,28 @@ class UsersTableSeeder extends Seeder
             'phone'=>'6241640107',
             'role'=> 'admin',
         ]);
+        User::create([
+            'name' => 'Juan',
+            'email' => 'juan@gmail.com',
+            'email_verified_at' => null,
+            'password' => Hash::make('doctor'),
+            'remember_token' => null,
+            'cedula'=>Str::random(8),
+            'address'=> 'Lomas Altas',
+            'phone'=>'6242640804',
+            'role'=> 'doctor',
+        ]);
+        User::create([
+            'name' => 'Pepe',
+            'email' => 'pepe@gmail.com',
+            'email_verified_at' => null,
+            'password' => Hash::make('patient'),
+            'remember_token' => null,
+            'cedula'=>Str::random(8),
+            'address'=> 'Lomas Altas',
+            'phone'=>'6241556455',
+            'role'=> 'patient',
+        ]);
         factory(User::class, 50)->create();
     }
 }
