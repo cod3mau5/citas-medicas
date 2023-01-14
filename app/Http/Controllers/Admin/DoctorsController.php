@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Specialty;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use App\User;
@@ -19,7 +20,8 @@ class DoctorsController extends Controller
 
     public function create()
     {
-        return view('doctors.create');
+        $specialties=Specialty::all();
+        return view('doctors.create',compact('specialties'));
     }
 
 
@@ -35,10 +37,11 @@ class DoctorsController extends Controller
 
         $this->validate($request,$rules);
 
-        User::create(
+        $user=User::create(
             $request->only('name','email','cedula','address','phone') + ['role'=>'doctor','password'=>Hash::make($request->password)]
         );
 
+        $user->specialties()->attach($request->input('specialties'));
         $notification="EL médico ". $request->name." se ha registrado correctamente";
         return redirect('/doctors')->with(compact('notification'));
     }
@@ -53,7 +56,8 @@ class DoctorsController extends Controller
     public function edit($id)
     {
         $doctor= User::doctors()->findOrFail($id);
-        return view('doctors.edit',compact('doctor'));
+        $specialties=Specialty::all();
+        return view('doctors.edit',compact('doctor','specialties'));
     }
 
 
@@ -76,6 +80,7 @@ class DoctorsController extends Controller
             $data['password']=Hash::make($password);
         }
         $user->update($data);
+        $user->specialties()->sync($request->input('specialties'));
         $updatedUser=User::doctors()->findOrFail($id);
 
         $notification="La informacion del médico ". $updatedUser->name." se ha registrado correctamente";

@@ -6,7 +6,11 @@ use Illuminate\Database\Eloquent\Model;
 
 class Specialty extends Model
 {
-    protected $fillable= [
-        'name','description'
-    ];
+    // $specialty->users
+    public function users()
+    {
+        return $this->belongsToMany(User::class)->withTimestamps();
+    }
+
+    // $specialty->appointments
 }

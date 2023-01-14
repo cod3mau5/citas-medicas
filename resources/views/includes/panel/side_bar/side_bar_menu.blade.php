@@ -1,10 +1,10 @@
  <!-- Navigation -->
   <!-- Heading -->
-  @if (auth()->user()->role == 'admin')
-    <h6 class="navbar-heading text-muted">Gestionar datos</h6>
+    @if (auth()->user()->role == 'admin')
+        <h6 class="navbar-heading text-muted">Gestionar datos</h6>
     @else
         <h6 class="navbar-heading text-muted">Menú</h6>
-@endif
+    @endif
         <ul class="navbar-nav">
             @if (auth()->user()->role == 'admin') {{-- role == 'admin' --}}
                 <li class="nav-item">
@@ -45,7 +45,7 @@
                 </li>
             @elseif(auth()->user()->role == 'patient') {{-- role == 'patient' --}}
                 <li class="nav-item">
-                    <a class="nav-link" href="{{route('specialties.index')}}">
+                    <a class="nav-link" href="{{route('appointments.create')}}">
                     <i class="ni ni-laptop text-blue"></i> Reservar Cita
                     </a>
                 </li>

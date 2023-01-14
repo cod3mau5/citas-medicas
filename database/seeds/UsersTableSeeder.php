@@ -10,6 +10,7 @@ class UsersTableSeeder extends Seeder
 
     public function run()
     {
+        // 1
         User::create([
             'name' => 'Tomas Maurcio Arana',
             'email' => 'code.bit.mau@gmail.com',
@@ -21,6 +22,8 @@ class UsersTableSeeder extends Seeder
             'phone'=>'6241640107',
             'role'=> 'admin',
         ]);
+
+        // 2
         User::create([
             'name' => 'Juan',
             'email' => 'juan@gmail.com',
@@ -32,6 +35,8 @@ class UsersTableSeeder extends Seeder
             'phone'=>'6242640804',
             'role'=> 'doctor',
         ]);
+
+        // 3
         User::create([
             'name' => 'Pepe',
             'email' => 'pepe@gmail.com',
@@ -43,6 +48,6 @@ class UsersTableSeeder extends Seeder
             'phone'=>'6241556455',
             'role'=> 'patient',
         ]);
-        factory(User::class, 50)->create();
+        factory(User::class, 50)->states('patient')->create();
     }
 }

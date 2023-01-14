@@ -1,6 +1,9 @@
 @extends('layouts.panel')
-
 @section('title', 'Crear especialidad')
+@section('styles')
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-select@1.13.14/dist/css/bootstrap-select.min.css">
+@endsection
 @section('content')
 
     <div class="row mt-5">
@@ -55,6 +58,26 @@
                             <input type="text" name="password" class="form-control" id="password" value="" >
                             <p> <em><small>(Ingrese un valor solo si desea modificar la contraseña)</small></em></p>
                         </div>
+                        <div class="form-group">
+                            <label for="specialties">Especialidades del medico</label>
+                            <select name="specialties[]"
+                                    id="specialties"
+                                    class="form-control selectpicker"
+                                    data-style="btn-outline-default"
+                                    multiple
+                                    title="seleccione una o varias"
+                            >
+                                @foreach ($specialties as $specialty)
+                                    <option value="{{ $specialty->id }}"
+                                            @if(old('specialty_id') == $specialty->id)
+                                                selected
+                                        @endif
+                                    >
+                                        {{ $specialty->name }}
+                                    </option>
+                                @endforeach
+                            </select>
+                        </div>
                         <button type="submit" class="btn btn-default float-right">Guardar</button>
                         @csrf
                         @method('PUT')
@@ -65,4 +88,13 @@
 
     </div>
 
+@endsection
+@section('scripts')
+    <!-- Latest compiled and minified JavaScript -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap-select@1.13.14/dist/js/bootstrap-select.min.js"></script>
+    <script>
+        $(document).ready(()=>{
+            $('#specialties').selectpicker('val', [@foreach($doctor->specialties as $spec){{$spec->id.','}}@endforeach]);
+        });
+    </script>
 @endsection
