@@ -44,5 +44,6 @@ Route::middleware('auth')->group(function(){
     Route::get('/appointments', 'AppointmentController@store')->name('appointments.store');
     // JSON
     Route::get('/api/specialties/{specialty}/doctors','Api\SpecialtyController@doctors');
+    Route::get('/api/schedule/hours', 'Api\ScheduleController@hours');
 });
 
