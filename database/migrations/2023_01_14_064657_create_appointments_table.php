@@ -34,6 +34,8 @@ class CreateAppointmentsTable extends Migration
             $table->time('scheduled_time');
 
             $table->string('type');
+            $table->string('status')->default('reservada');
+            // reservada, confirmada, atendida, cancelada
 
             $table->timestamps();
         });

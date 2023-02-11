@@ -27,7 +27,7 @@
                 </div>
             @endif
 
-            <form action="{{ url('appointments') }}" method="post">
+            <form action="{{ route('appointments.store') }}" method="post">
                 @csrf
                 <div class="form-group">
                     <label for="description">Descripción</label>

@@ -13,12 +13,11 @@ use App\Interfaces\ScheduleServiceInterface;
 use App\Http\Requests\StoreAppointment;
 
 use Carbon\Carbon;
-use Validator;
+use Illuminate\Support\Facades\Validator;
+
 
 class AppointmentController extends Controller
 {
-
-
 
     public function getAvailableIntervals($date, $doctorId)
     {
@@ -51,8 +50,6 @@ class AppointmentController extends Controller
 
         return $data;
     }
-
-
     public function index()
     {
         $role = auth()->user()->role;
@@ -87,8 +84,19 @@ class AppointmentController extends Controller
                 ->where('patient_id', auth()->id())
                 ->paginate(10);
         }
+        return view('appointments.index', 
+            compact(
+                'pendingAppointments', 'confirmedAppointments', 'oldAppointments',
+                'role'
+            )
+        );
     }
-
+    public function show(Appointment $appointment)
+    {
+        $role = auth()->user()->role;
+        // return $appointment->cancellation->cancelled_by->name;
+        return view('appointments.show',compact('appointment','role'));
+    }
     public function create(ScheduleServiceInterface $scheduleService)
     {
         $specialties = Specialty::all();
@@ -111,9 +119,8 @@ class AppointmentController extends Controller
 
         return view('appointments.create', compact('specialties', 'doctors', 'intervals'));
     }
-
-    public function store(Request $request)
-    {   
+    public function store(Request $request, ScheduleServiceInterface $scheduleService)
+    {
         $rules=[
             'description'=>'required',
             'specialty_id'=>'exists:specialties,id',
@@ -124,10 +131,29 @@ class AppointmentController extends Controller
             'scheduled_time.required'=>'Por favor seleccione una hora válida para su cita.'
         ];
 
-        $this->validate($request,$rules,$messages);
+        // $this->validate($request,$rules,$messages);
+
+        $validator= Validator::make($request->all(), $rules, $messages);
+
+        $validator->after(function($validator) use ($request,$scheduleService){
+            $date=$request->input('scheduled_date');
+            $doctorId=$request->input('doctor_id');
+            $scheduled_time=$request->input('scheduled_time');
+            if($date && $doctorId && $scheduled_time){
+                $start=  new Carbon($scheduled_time);
+            } else{
+                return;
+            }
+            if(!$scheduleService->isAvailableInterval($date,$doctorId,$start)){
+                $validator->errors()->add('available_time','La hora seleccionada ya se encuentra reservada por otro paciente.');
+            }
+        });
+        if($validator->fails()){
+            return back()->withErrors($validator)->withInput();
+        }
 
         $data= $request->only([
-            'description', 
+            'description',
             'specialty_id',
             'doctor_id',
             'scheduled_date',
@@ -144,7 +170,44 @@ class AppointmentController extends Controller
         $notification='La cita se ha registrado correctamente.';
         return back()->with(compact('notification'));
     }
+    public function postCancel(Appointment $appointment,Request $request)
+    {
+        if ($request->has('justification')) {
+            $cancellation = new CancelledAppointment();
+            $cancellation->justification = $request->input('justification');
+            $cancellation->cancelled_by_id = auth()->id();
+            // $cancellation->appointment_id = ;
+            // $cancellation->save();
 
+            $appointment->cancellation()->save($cancellation);
+        }
+        
+        $appointment->status = 'cancelada';
+        $saved = $appointment->save(); // update
 
+        if ($saved)
+            // $appointment->patient->sendFCM('Su cita ha sido cancelada.');
 
+        $notification = 'La cita se ha cancelado correctamente.';
+        return redirect('/appointments')->with(compact('notification'));
+    }
+    public function showCancelForm(Appointment $appointment){
+        if ($appointment->status == 'confirmada') {
+            $role = auth()->user()->role;
+            return view('appointments.cancel', compact('appointment', 'role'));
+        }
+
+        return redirect('/appointments');
+    }
+    public function postConfirm(Appointment $appointment)
+    {
+        $appointment->status = 'confirmada';
+        $saved = $appointment->save(); // update
+
+        if ($saved)        
+            // $appointment->patient->sendFCM('Su cita se ha confirmado!');
+
+        $notification = 'La cita se ha confirmado correctamente.';
+        return redirect('/appointments')->with(compact('notification'));
+    }
 }
