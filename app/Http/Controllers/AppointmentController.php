@@ -192,8 +192,8 @@ class AppointmentController extends Controller
         return redirect('/appointments')->with(compact('notification'));
     }
     public function showCancelForm(Appointment $appointment){
-        if ($appointment->status == 'confirmada') {
-            $role = auth()->user()->role;
+        $role = auth()->user()->role;
+        if ($appointment->status == 'confirmada' || $role=='admin'||$role=='doctor') {
             return view('appointments.cancel', compact('appointment', 'role'));
         }
 

@@ -56,18 +56,24 @@
                   <i class="fas fa-check"></i>
                 </button>
               </form>
+              <a class="btn btn-sm btn-danger" title="Cancelar cita" 
+              href="{{ url('/appointments/'.$appointment->id.'/cancel') }}">
+                Cancelar cita
+              </a>
+            @else
+              <form action="{{ route('appointments.postCancel',$appointment->id) }}" 
+                method="POST" class="d-inline-block">
+                @csrf
+                
+                <button class="btn btn-sm btn-danger" type="submit" 
+                  data-toggle="tooltip" title="Cancelar cita">
+                  Cancelar cita
+                  <i class="fas fa-ban"></i>
+                </button>
+              </form>   
             @endif
             
-            <form action="{{ route('appointments.postCancel',$appointment->id) }}" 
-              method="POST" class="d-inline-block">
-              @csrf
-              
-              <button class="btn btn-sm btn-danger" type="submit" 
-                data-toggle="tooltip" title="Cancelar cita">
-                Cancelar cita
-                <i class="fas fa-ban"></i>
-              </button>
-            </form>          
+       
           </td>
         </tr>
         @endforeach

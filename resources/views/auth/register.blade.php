@@ -11,7 +11,7 @@
       <div class="row justify-content-center">
         <div class="col-lg-6 col-md-8">
           <div class="card bg-secondary shadow border-0">
-           
+
             <div class="card-body px-lg-4 py-lg-4">
                 @if($errors->any())
                     <div class="alert alert-danger" role="alert">
@@ -22,7 +22,7 @@
                         <small>Ingresa tus datos para registrarte.</small>
                       </div>
                 @endif
-           
+
               <form method="POST" action="{{route('register')}}">
                 <div class="form-group">
                   <div class="input-group input-group-alternative mb-3">
@@ -57,8 +57,8 @@
                     <input class="form-control" placeholder="Confirmar contraseña" type="password" name="password-confirmation" required>
                   </div>
                 </div>
-                
-               
+
+
                 <div class="text-center">
                   <button type="submit" class="btn btn-primary mt-4">Confirmar registro</button>
                 </div>

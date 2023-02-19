@@ -15,9 +15,7 @@ class SpecialtiesTableSeeder extends Seeder
     public function run()
     {
         $specialties = [
-            'Oftalmología',
-            'Pediatría',
-            'Neurología'
+            "Anestesiología", "Cardiología", "Dermatología", "Endocrinología", "Gastroenterología", "Geriatría", "Ginecología y Obstetricia", "Hematología", "Infectología", "Neumología", "Neurología", "Oncología", "Oftalmología", "Otorrinolaringología", "Pediatría", "Psiquiatría", "Reumatología", "Urología","Ortopedia"
         ];
         foreach ($specialties as $specialtyName) {
             $specialty = Specialty::create([

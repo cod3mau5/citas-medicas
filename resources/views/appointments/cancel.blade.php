@@ -23,7 +23,8 @@
         Estás a punto de cancelar tu cita reservada con el médico 
         {{ $appointment->doctor->name }} 
         (especialidad {{ $appointment->specialty->name }}) 
-        para el día {{ $appointment->scheduled_date }}:
+        para el día {{ $appointment->scheduled_date }}
+        (hora {{ $appointment->scheduled_time_12 }}):
       </p>
       @elseif ($role == 'doctor')
       <p>

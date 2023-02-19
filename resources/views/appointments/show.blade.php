@@ -33,7 +33,9 @@
         <li>
           <strong>Especialidad:</strong> {{ $appointment->specialty->name }}
         </li>
-
+        <li>
+          <strong>Descripcion:</strong> {{ $appointment->description }}
+        </li>
         <li>
           <strong>Tipo:</strong> {{ $appointment->type }}
         </li>
