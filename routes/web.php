@@ -47,9 +47,8 @@ Route::middleware('auth')->group(function(){
     Route::get('/appointments/{appointment}/cancel', 'AppointmentController@showCancelForm')->name('appointments.showCancelForm');
     Route::post('/appointments/{appointment}/cancel', 'AppointmentController@postCancel')->name('appointments.postCancel');
     Route::post('/appointments/{appointment}/confirm', 'AppointmentController@postConfirm')->name('appointments.confirm');
-    // JSON
-    Route::get('/api/specialties/{specialty}/doctors','Api\SpecialtyController@doctors');
-    Route::get('/api/schedule/hours', 'Api\ScheduleController@hours');
+
+
 
     // Charts
 	Route::get('/charts/appointments/line', 'Admin\ChartController@appointments')->name('charts.appointments');
