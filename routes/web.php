@@ -47,9 +47,6 @@ Route::middleware('auth')->group(function(){
     Route::get('/appointments/{appointment}/cancel', 'AppointmentController@showCancelForm')->name('appointments.showCancelForm');
     Route::post('/appointments/{appointment}/cancel', 'AppointmentController@postCancel')->name('appointments.postCancel');
     Route::post('/appointments/{appointment}/confirm', 'AppointmentController@postConfirm')->name('appointments.confirm');
-
-
-
     // Charts
 	Route::get('/charts/appointments/line', 'Admin\ChartController@appointments')->name('charts.appointments');
 	Route::get('/charts/doctors/column', 'Admin\ChartController@doctors')->name('charts.doctors');

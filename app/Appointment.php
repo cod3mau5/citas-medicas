@@ -9,7 +9,7 @@ use Illuminate\Database\Eloquent\Model;
 class Appointment extends Model
 {
     protected $fillable = [
-    	'description', 
+    	'description',
     	'specialty_id',
     	'doctor_id',
     	'patient_id',
@@ -19,7 +19,7 @@ class Appointment extends Model
     ];
 
     protected $hidden = [
-        'specialty_id', 'doctor_id', 'scheduled_time'
+        'specialty_id','doctor_id','scheduled_time'
     ];
 
     protected $appends = [
@@ -61,7 +61,7 @@ class Appointment extends Model
 
     static public function createForPatient(Request $request, $patientId) {
         $data = $request->only([
-            'description', 
+            'description',
             'specialty_id',
             'doctor_id',
             'scheduled_date',
@@ -76,5 +76,5 @@ class Appointment extends Model
         $data['scheduled_time'] = $carbonTime->format('H:i:s');
 
         return self::create($data);
-    } 
+    }
 }

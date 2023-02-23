@@ -84,7 +84,7 @@ class AppointmentController extends Controller
                 ->where('patient_id', auth()->id())
                 ->paginate(10);
         }
-        return view('appointments.index', 
+        return view('appointments.index',
             compact(
                 'pendingAppointments', 'confirmedAppointments', 'oldAppointments',
                 'role'
@@ -181,7 +181,7 @@ class AppointmentController extends Controller
 
             $appointment->cancellation()->save($cancellation);
         }
-        
+
         $appointment->status = 'cancelada';
         $saved = $appointment->save(); // update
 
@@ -204,7 +204,7 @@ class AppointmentController extends Controller
         $appointment->status = 'confirmada';
         $saved = $appointment->save(); // update
 
-        if ($saved)        
+        if ($saved)
             // $appointment->patient->sendFCM('Su cita se ha confirmado!');
 
         $notification = 'La cita se ha confirmado correctamente.';
