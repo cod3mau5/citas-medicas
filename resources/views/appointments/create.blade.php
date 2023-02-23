@@ -17,6 +17,7 @@
             </div>
         </div>
         <div class="card-body">
+
             @if ($errors->any())
                 <div class="alert alert-danger" role="alert">
                     <ul>
@@ -26,7 +27,11 @@
                     </ul>
                 </div>
             @endif
-
+            @if (Session::has('success'))
+                <div class="alert alert-success">
+                    <p>{{ Session::get('success') }}</p>
+                </div>
+            @endif
             <form action="{{ route('appointments.store') }}" method="post">
                 @csrf
                 <div class="form-group">
