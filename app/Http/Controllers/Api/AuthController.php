@@ -3,38 +3,65 @@
 namespace App\Http\Controllers\Api;
 
 use Illuminate\Validation\ValidationException;
-use Illuminate\Support\Facades\Auth;
+use Illuminate\Auth\Events\Registered;
+use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\Controller;
+use App\Http\Traits\ValidateAndCreatePatient;
 use Illuminate\Http\Request;
+
 use App\User;
 
 class AuthController extends Controller
 {
-    public function register(Request $request){
-        $validateData=$request->validate([
-            'name'=>'required|string|max:255',
-            'email'=>'required|string|email|max:255|unique:users',
-            'password'=>'required|string'
-        ]);
+    use ValidateAndCreatePatient;
 
-        $user=User::create([
-            'name'=>$validateData['name'],
-            'email'=>$validateData['email'],
-            'password' => Hash::make($validateData['password']), // password
-            'email_verified_at' => null,
-            'remember_token' => null,
-            'cedula'=>'123456789',
-            'address'=> 'Lomas Altas',
-            'phone'=>'6241640107',
-            'role'=> 'patient',
-        ]);
+    public function register(Request $request){
+
+        $this->validator($request->all())->validate();
+
+        event(new Registered($user = $this->create($request->all())));
+
+        Auth::login($user);
+
         $token=$user->createToken('auth_token')->plainTextToken;
 
         return response()->json([
-            'access_token'=>$token,
-            'token_type'=>'Bearer'
+            'success'=> true,
+            'user'=> $user,
+            'token'=>$token,
         ]);
+
+        // if ($response = $this->registered($request, $user)) {
+        //     return $response;
+        // }
+
+        // return $request->wantsJson()
+        //             ? new JsonResponse([], 201)
+        //             : redirect($this->redirectPath());
+
+
+        // $validateData=$request->validate([
+        //     'name'=>'required|string|max:255',
+        //     'email'=>'required|string|email|max:255|unique:users',
+        //     'password'=>'required|string'
+        // ]);
+
+        // $user=User::create([
+        //     'name'=>$validateData['name'],
+        //     'email'=>$validateData['email'],
+        //     'password' => Hash::make($validateData['password']), // password
+        //     'email_verified_at' => null,
+        //     'remember_token' => null,
+        //     'cedula'=>'123456789',
+        //     'address'=> 'Lomas Altas',
+        //     'phone'=>'6241640107',
+        //     'role'=> 'patient',
+        // ]);
+
+
+
     }
 
     public function login(Request $request){
@@ -60,10 +87,13 @@ class AuthController extends Controller
             'token'=>$token
         ]);
     }
+
     public function logout(Request $request){
         $request->user()->tokens()->delete();
         return response()->json([
             'success'=>true
         ],200);
     }
+
+
 }
