@@ -119,10 +119,11 @@ class AppointmentController extends Controller
 
         return view('appointments.create', compact('specialties', 'doctors', 'intervals'));
     }
-    public function store(StoreAppointment $request, ScheduleServiceInterface $scheduleService)
+    public function store(StoreAppointment $request)
     {
+        $patientId=$request->user()->id();
 
-    	$created= Appointment::createForPatient($request,auth()->id());
+    	$created= Appointment::createForPatient($request,$patientId);
 
         if($created){
             return back()->with('success','La cita se ha registrado correctamente.');
