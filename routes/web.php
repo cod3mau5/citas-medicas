@@ -31,6 +31,10 @@ Route::middleware(['auth','admin'])->namespace('Admin')->group(function(){
 
     //Patients
     Route::resource('patients','PatientsController');
+
+    //FCM
+    Route::post('/fcm/send','FirebaseController@sendAll')->name('FCMWeb');
+
 });
 
 Route::middleware(['auth','doctor'])->namespace('Doctor')->group(function(){
