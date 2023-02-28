@@ -121,7 +121,8 @@ class AppointmentController extends Controller
     }
     public function store(StoreAppointment $request)
     {
-        $patientId=$request->user()->id();
+        // $patientId=$request->user()->id();
+        $patientId=auth()->user()->id;
 
     	$created= Appointment::createForPatient($request,$patientId);
 
@@ -150,9 +151,13 @@ class AppointmentController extends Controller
         $saved = $appointment->save(); // update
 
         if ($saved)
-            return $appointment->patient->sendFCM('Su cita ha sido cancelada.');
+            $response=$appointment->patient->sendFCM('Su cita ha sido cancelada.');
 
-        $notification = 'La cita se ha cancelado correctamente.';
+        if($response)
+            $notification = 'La cita se ha cancelado correctamente.';
+        else
+            $notification = 'Hubo un error al cancelar la cita.';
+
         return redirect('/appointments')->with(compact('notification'));
     }
     public function showCancelForm(Appointment $appointment){
@@ -168,10 +173,14 @@ class AppointmentController extends Controller
         $appointment->status = 'confirmada';
         $saved = $appointment->save(); // update
 
-        if ($saved){}
-            $appointment->patient->sendFCM('Su cita se ha confirmado!');
+        if ($saved)
+            $response=$appointment->patient->sendFCM('Su cita se ha confirmado!');
 
-        $notification = 'La cita se ha confirmado correctamente.';
+        if($response)
+            $notification = 'La cita se ha confirmado correctamente.';
+        else
+            $notification = 'Hubo un error al confirmado la cita.';
+
         return redirect('/appointments')->with(compact('notification'));
     }
 }

@@ -80,7 +80,7 @@ class User extends Authenticatable
     public function sendFCM($message){
         $url = 'https://fcm.googleapis.com/fcm/send';
 
-        return $FcmToken = $this->device_token;
+        $FcmToken = [$this->device_token];
 
         $serverKey=env('FCM_SERVER_KEY','');
 
@@ -116,7 +116,8 @@ class User extends Authenticatable
         // Execute post
         $result = curl_exec($ch);
         if ($result === FALSE) {
-            die('Curl failed: ' . curl_error($ch));
+            return false;
+            // die('Curl failed: ' . curl_error($ch));
         }
         // Close connection
         curl_close($ch);
