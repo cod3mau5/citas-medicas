@@ -78,6 +78,8 @@ class User extends Authenticatable
         return $this->hasMany(Appointment::class, 'patient_id');
     }
     public function sendFCM($message){
+        if(!$this->device_token)
+            return;
         $url = 'https://fcm.googleapis.com/fcm/send';
 
         $FcmToken = [$this->device_token];
