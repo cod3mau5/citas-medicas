@@ -80,7 +80,7 @@ class User extends Authenticatable
     public function sendFCM($message){
         $url = 'https://fcm.googleapis.com/fcm/send';
 
-        $FcmToken = $this->device_token;
+        return $FcmToken = $this->device_token;
 
         $serverKey=env('FCM_SERVER_KEY','');
 
