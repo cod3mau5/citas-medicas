@@ -40,47 +40,42 @@
           </td>
           <td>
             @if ($role == 'admin')
-              <a class="btn btn-sm btn-primary" title="Ver cita" 
+              <a class="btn btn-sm btn-primary" title="Ver cita"
                 href="{{ url('/appointments/'.$appointment->id) }}">
                   Ver
               </a>
             @endif
-  
+
             @if ($role == 'doctor' || $role == 'admin')
               <form action="{{ route('appointments.confirm',$appointment->id) }}"
                 method="POST" class="d-inline-block">
                 @csrf
-  
-                <button class="btn btn-sm btn-success" type="submit" 
+
+                <button class="btn btn-sm btn-success" type="submit"
                   data-toggle="tooltip" title="Confirmar cita">
                   <i class="fas fa-check"></i>
                 </button>
               </form>
-              <a class="btn btn-sm btn-danger" title="Cancelar cita" 
-              href="{{ url('/appointments/'.$appointment->id.'/cancel') }}">
-                Cancelar cita
-              </a>
-            @else
-              <form action="{{ route('appointments.postCancel',$appointment->id) }}" 
+            @endif
+              <form action="{{ route('appointments.postCancel',$appointment->id) }}"
                 method="POST" class="d-inline-block">
                 @csrf
-                
-                <button class="btn btn-sm btn-danger" type="submit" 
+
+                <button class="btn btn-sm btn-danger" type="submit"
                   data-toggle="tooltip" title="Cancelar cita">
                   Cancelar cita
                   <i class="fas fa-ban"></i>
                 </button>
-              </form>   
-            @endif
-            
-       
+              </form>
+
+
           </td>
         </tr>
         @endforeach
       </tbody>
     </table>
   </div>
-  
+
   <div class="card-body">
     {{ $pendingAppointments->links() }}
   </div>
