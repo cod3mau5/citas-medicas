@@ -39,8 +39,8 @@ class SendNotifications extends Command
      */
     public function handle()
     {
+        $headers = ['id', 'scheduled_date', 'scheduled_time', 'patient_id'];
         $this->info("Buscando citas medicas confirmadas en las proximas 24 horas.");
-
         $appointmentsTomorrow= $this->getAppointments24Hours();
         foreach($appointmentsTomorrow as $appointment){
             // $this->info($appointment->all());
@@ -51,6 +51,9 @@ class SendNotifications extends Command
                 $this->info("Paciente vacio");
             }
         }
+        $this->table($headers, $appointmentsTomorrow->toArray());
+
+
         $this->info("Buscando citas medicas confirmadas en la proxima hora.");
         $appointmentsNextHour= $this->getAppointmentsNextHour();
         foreach($appointmentsNextHour as $appointment){
@@ -62,6 +65,8 @@ class SendNotifications extends Command
                 $this->info("Paciente vacio");
             }
         }
+        $this->table($headers, $appointmentsNextHour->toArray());
+
     }
     public function getAppointments24Hours(){
         $now=Carbon::now();
