@@ -45,39 +45,39 @@ class SendNotifications extends Command
         foreach($appointmentsTomorrow as $appointment){
             // $this->info($appointment->all());
             if(!empty($appointment->patient)){
-                $appointment->patient->sendFCM('Tienes una cita mañana, no olvides asistir.');
-                $this->info("Mensaje FCM enviado 24 horas antes al paciente con ID: $$appointment->patient_id");
+                $appointment->patient->sendFCM('Tienes una cita mañana a las '.$appointment->scheduled_time.', no olvides asistir.');
+                $this->info("Mensaje FCM enviado 24 horas antes al paciente con ID: $appointment->patient_id");
             }else{
                 $this->info("Paciente vacio");
             }
         }
-
+        $this->info("Buscando citas medicas confirmadas en la proxima hora.");
         $appointmentsNextHour= $this->getAppointmentsNextHour();
         foreach($appointmentsNextHour as $appointment){
             // $this->info($appointment->all());
             if(!empty($appointment->patient)){
                 $appointment->patient->sendFCM('Tienes una cita en una hora, te esperamos!.');
-                $this->info("Mensaje FCM enviado faltando 1 hora al paciente con ID: $$appointment->patient_id");
+                $this->info("Mensaje FCM enviado faltando 1 hora al paciente con ID: $appointment->patient_id");
             }else{
                 $this->info("Paciente vacio");
             }
         }
     }
     public function getAppointments24Hours(){
-        $today=Carbon::now();
+        $now=Carbon::now();
        return $appointments=Appointment::where('status','confirmada')
-                    ->where('scheduled_date',$today->addDay()->toDateString())
-                    ->where('scheduled_time','>=',$today->copy()->subMinutes(60)->toTimeString())
-                    ->where('scheduled_time','<',$today->copy()->addMinutes(60)->toTimeString())
+                    ->where('scheduled_date',$now->addDay()->toDateString())
+                    ->where('scheduled_time','>=',$now->copy()->subMinutes(60)->toTimeString())
+                    ->where('scheduled_time','<',$now->copy()->addMinutes(60)->toTimeString())
                     ->get(['id','scheduled_date','scheduled_time','specialty_id','patient_id']);
 
     }
     public function getAppointmentsNextHour(){
-        $today=Carbon::now();
+        $now=Carbon::now();
        return $appointments=Appointment::where('status','confirmada')
-                    ->where('scheduled_date',$today->addHour()->toDateString())
-                    ->where('scheduled_time','>=',$today->copy()->subMinutes(3)->toTimeString())
-                    ->where('scheduled_time','<',$today->copy()->addMinutes(2)->toTimeString())
+                    ->where('scheduled_date',$now->addHour()->toDateString())
+                    ->where('scheduled_time','>=',$now->copy()->subMinutes(3)->toTimeString())
+                    ->where('scheduled_time','<',$now->copy()->addMinutes(2)->toTimeString())
                     ->get(['id','scheduled_date','scheduled_time','specialty_id','patient_id']);
 
     }
