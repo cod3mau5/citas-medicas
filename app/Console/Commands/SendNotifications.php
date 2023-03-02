@@ -43,6 +43,7 @@ class SendNotifications extends Command
 
         $appointmentsTomorrow= $this->getAppointments24Hours();
         foreach($appointmentsTomorrow as $appointment){
+            // $this->info($appointment->all());
             if(!empty($appointment->patient)){
                 $appointment->patient->sendFCM('Tienes una cita mañana, no olvides asistir.');
                 $this->info("Mensaje FCM enviado 24 horas antes al paciente con ID: $$appointment->patient_id");
@@ -53,6 +54,7 @@ class SendNotifications extends Command
 
         $appointmentsNextHour= $this->getAppointmentsNextHour();
         foreach($appointmentsNextHour as $appointment){
+            // $this->info($appointment->all());
             if(!empty($appointment->patient)){
                 $appointment->patient->sendFCM('Tienes una cita en una hora, te esperamos!.');
                 $this->info("Mensaje FCM enviado faltando 1 hora al paciente con ID: $$appointment->patient_id");
@@ -67,7 +69,7 @@ class SendNotifications extends Command
                     ->where('scheduled_date',$today->addDay()->toDateString())
                     ->where('scheduled_time','>=',$today->copy()->subMinutes(60)->toTimeString())
                     ->where('scheduled_time','<',$today->copy()->addMinutes(60)->toTimeString())
-                    ->get(['id','scheduled_date','scheduled_time','specialty_id'])->toArray();
+                    ->get(['id','scheduled_date','scheduled_time','specialty_id','patient_id']);
 
     }
     public function getAppointmentsNextHour(){
@@ -76,7 +78,7 @@ class SendNotifications extends Command
                     ->where('scheduled_date',$today->addHour()->toDateString())
                     ->where('scheduled_time','>=',$today->copy()->subMinutes(3)->toTimeString())
                     ->where('scheduled_time','<',$today->copy()->addMinutes(2)->toTimeString())
-                    ->get(['id','scheduled_date','scheduled_time','specialty_id'])->toArray();
+                    ->get(['id','scheduled_date','scheduled_time','specialty_id','patient_id']);
 
     }
 }
