@@ -51,7 +51,7 @@ class SendNotifications extends Command
                 $this->info("Paciente vacio");
             }
         }
-        $this->table($headers, $appointmentsTomorrow->toArray());
+        $this->table($headers, $appointmentsTomorrow);
 
 
         $this->info("Buscando citas medicas confirmadas en la proxima hora.");
@@ -65,7 +65,7 @@ class SendNotifications extends Command
                 $this->info("Paciente vacio");
             }
         }
-        $this->table($headers, $appointmentsNextHour->toArray());
+        $this->table($headers, $appointmentsNextHour);
 
     }
     public function getAppointments24Hours(){
