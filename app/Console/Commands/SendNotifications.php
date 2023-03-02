@@ -42,6 +42,7 @@ class SendNotifications extends Command
         $headers = ['id', 'scheduled_date', 'scheduled_time', 'patient_id'];
         $this->info("Buscando citas medicas confirmadas en las proximas 24 horas.");
         $appointmentsTomorrow= $this->getAppointments24Hours();
+        $this->table($headers, $appointmentsTomorrow);
         foreach($appointmentsTomorrow as $appointment){
             // $this->info($appointment->all());
             if(!empty($appointment->patient)){
@@ -51,11 +52,12 @@ class SendNotifications extends Command
                 $this->info("Paciente vacio");
             }
         }
-        $this->table($headers, $appointmentsTomorrow);
+
 
 
         $this->info("Buscando citas medicas confirmadas en la proxima hora.");
         $appointmentsNextHour= $this->getAppointmentsNextHour();
+        $this->table($headers, $appointmentsNextHour->toArray());
         foreach($appointmentsNextHour as $appointment){
             // $this->info($appointment->all());
             if(!empty($appointment->patient)){
@@ -65,7 +67,7 @@ class SendNotifications extends Command
                 $this->info("Paciente vacio");
             }
         }
-        $this->table($headers, $appointmentsNextHour);
+
 
     }
     public function getAppointments24Hours(){
@@ -81,8 +83,8 @@ class SendNotifications extends Command
         $now=Carbon::now();
        return $appointments=Appointment::where('status','confirmada')
                     ->where('scheduled_date',$now->addHour()->toDateString())
-                    ->where('scheduled_time','>=',$now->copy()->subMinutes(3)->toTimeString())
-                    ->where('scheduled_time','<',$now->copy()->addMinutes(2)->toTimeString())
+                    ->where('scheduled_time','>=',$now->copy()->subMinutes(30)->toTimeString())
+                    ->where('scheduled_time','<',$now->copy()->addMinutes(29)->toTimeString())
                     ->get(['id','scheduled_date','scheduled_time','specialty_id','patient_id']);
 
     }

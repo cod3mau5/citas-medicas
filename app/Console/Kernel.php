@@ -25,7 +25,7 @@ class Kernel extends ConsoleKernel
     protected function schedule(Schedule $schedule)
     {
         $filePath= storage_path('logs/fcm_send.log');
-        $schedule->command('fcm:send')->everyMinute()->appendOutputTo($filePath);
+        $schedule->command('fcm:send')->everyTenMinutes()->appendOutputTo($filePath);
     }
 
     /**
