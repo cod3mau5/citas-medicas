@@ -13,7 +13,7 @@ class SendNotifications extends Command
      *
      * @var string
      */
-    protected $signature = 'notifications:send';
+    protected $signature = 'fcm:send';
 
     /**
      * The console command description.
@@ -44,11 +44,13 @@ class SendNotifications extends Command
         $appointmentsTomorrow= $this->getAppointments24Hours();
         foreach($appointmentsTomorrow as $appointment){
             $appointment->patient->sendFCM('Tienes una cita mañana, no olvides asistir.');
+            $this->info("Mensaje FCM enviado 24 horas antes al paciente con ID: $$appointment->patient_id");
         }
 
         $appointmentsNextHour= $this->getAppointmentsNextHour();
         foreach($appointmentsNextHour as $appointment){
-            $appointment->patient->sendFCM('Tienes una cita en una hora, no olvides asistir.');
+            $appointment->patient->sendFCM('Tienes una cita en una hora, te esperamos!.');
+            $this->info("Mensaje FCM enviado faltando 1 hora al paciente con ID: $$appointment->patient_id");
         }
     }
     public function getAppointments24Hours(){
