@@ -43,14 +43,22 @@ class SendNotifications extends Command
 
         $appointmentsTomorrow= $this->getAppointments24Hours();
         foreach($appointmentsTomorrow as $appointment){
-            $appointment->patient->sendFCM('Tienes una cita mañana, no olvides asistir.');
-            $this->info("Mensaje FCM enviado 24 horas antes al paciente con ID: $$appointment->patient_id");
+            if(!empty($appointment->patient)){
+                $appointment->patient->sendFCM('Tienes una cita mañana, no olvides asistir.');
+                $this->info("Mensaje FCM enviado 24 horas antes al paciente con ID: $$appointment->patient_id");
+            }else{
+                $this->info("Paciente vacio");
+            }
         }
 
         $appointmentsNextHour= $this->getAppointmentsNextHour();
         foreach($appointmentsNextHour as $appointment){
-            $appointment->patient->sendFCM('Tienes una cita en una hora, te esperamos!.');
-            $this->info("Mensaje FCM enviado faltando 1 hora al paciente con ID: $$appointment->patient_id");
+            if(!empty($appointment->patient)){
+                $appointment->patient->sendFCM('Tienes una cita en una hora, te esperamos!.');
+                $this->info("Mensaje FCM enviado faltando 1 hora al paciente con ID: $$appointment->patient_id");
+            }else{
+                $this->info("Paciente vacio");
+            }
         }
     }
     public function getAppointments24Hours(){
