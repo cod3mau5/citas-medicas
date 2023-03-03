@@ -24,6 +24,7 @@ Route::get('/schedule/hours', 'Api\ScheduleController@hours');
 Route::middleware('auth:sanctum')->namespace('Api')->group(function(){
 
     Route::get('/userinfo','UserController@show');
+    Route::post('/userinfo','UserController@update');
     Route::post('/logout','AuthController@logout');
 
     // appointments
