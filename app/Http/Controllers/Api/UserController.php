@@ -10,4 +10,12 @@ class UserController extends Controller
     public function show(Request $request){
         return $request->user();
     }
+    public function update(Request $request){
+        $user= $request->user();
+        $user->name= $request->name;
+        $user->email= $request->email;
+        $user->phone= $request->phone;
+        $user->address= $request->address;
+        $user->save();
+    }
 }
