@@ -44,9 +44,18 @@ Route::middleware(['auth','doctor'])->namespace('Doctor')->group(function(){
 
 
 Route::middleware('auth')->group(function(){
+
+        Route::get('/profile', 'UserController@edit')->name('profile.edit');
+        Route::post('/profile', 'UserController@update')->name('profile.update');
+
+
+
     Route::get('/appointments', 'AppointmentController@index')->name('appointments.index');
-    Route::get('/appointments/create', 'AppointmentController@create')->name('appointments.create');
-    Route::post('/appointments/store', 'AppointmentController@store')->name('appointments.store');
+    Route::middleware('phone')->group(function(){
+        Route::get('/appointments/create', 'AppointmentController@create')->name('appointments.create');
+        Route::post('/appointments/store', 'AppointmentController@store')->name('appointments.store');
+    });
+
     Route::get('/appointments/{appointment}', 'AppointmentController@show')->name('appointments.show');
     Route::get('/appointments/{appointment}/cancel', 'AppointmentController@showCancelForm')->name('appointments.showCancelForm');
     Route::post('/appointments/{appointment}/cancel', 'AppointmentController@postCancel')->name('appointments.postCancel');
@@ -55,5 +64,6 @@ Route::middleware('auth')->group(function(){
 	Route::get('/charts/appointments/line', 'Admin\ChartController@appointments')->name('charts.appointments');
 	Route::get('/charts/doctors/column', 'Admin\ChartController@doctors')->name('charts.doctors');
 	Route::get('/charts/doctors/column/data', 'Admin\ChartController@doctorsJson');
+
 });
 
