@@ -19,7 +19,7 @@ class AuthController extends Controller
 
     public function register(Request $request){
 
-        $user=User::where('email',$request['email'])->firstOrFail();
+        $user=User::where('email',$request['email'])->first();
         if(!$user){
             $this->validator($request->all())->validate();
 
