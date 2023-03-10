@@ -19,19 +19,29 @@ class AuthController extends Controller
 
     public function register(Request $request){
 
-        $this->validator($request->all())->validate();
+        $user=User::where('email',$request['email'])->firstOrFail();
+        if(!$user){
+            $this->validator($request->all())->validate();
 
-        event(new Registered($user = $this->create($request->all())));
+            event(new Registered($user = $this->create($request->all())));
 
-        Auth::login($user);
+            Auth::login($user);
 
-        $token=$user->createToken('auth_token')->plainTextToken;
+            $token=$user->createToken('auth_token')->plainTextToken;
 
-        return response()->json([
-            'success'=> true,
-            'user'=> $user,
-            'token'=>$token,
-        ]);
+            return response()->json([
+                'success'=> true,
+                'user'=> $user,
+                'token'=>$token,
+            ]);
+        }else{
+            $token=$user->createToken('auth_token')->plainTextToken;
+            return response()->json([
+                'success'=>true,
+                'user'=> $user,
+                'token'=>$token
+            ]);
+        }
 
         // if ($response = $this->registered($request, $user)) {
         //     return $response;
