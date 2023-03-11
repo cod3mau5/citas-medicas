@@ -11,8 +11,13 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', function () {
     return redirect('/login');
 })->name('landing');
+
 Route::get('/privacy',function(){
     return view('privacy');
+});
+
+Route::get('/conditions',function(){
+    return view('conditions');
 });
 
 Auth::routes();
