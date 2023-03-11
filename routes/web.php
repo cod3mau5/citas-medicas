@@ -20,6 +20,10 @@ Route::get('/conditions',function(){
     return view('conditions');
 });
 
+Route::get('/deleting-data-instructions',function(){
+    return view('deleting_data');
+});
+
 Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
