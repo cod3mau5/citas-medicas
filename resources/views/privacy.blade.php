@@ -35,12 +35,21 @@
 </head>
 <body>
 	<div class="container">
-		<h1>Política de privacidad</h1>
-		<p>En cumplimiento de lo establecido en la Ley de Protección de Datos Personales, se informa que los datos personales que se recogen a través de esta página de Facebook serán tratados de forma confidencial y se incorporarán a un fichero automatizado titularidad de caboconsultas, con la finalidad de gestionar las relaciones con los usuarios de la página, así como para el envío de información sobre los productos y servicios ofrecidos por caboconsultas.</p>
-		<p>Los datos recogidos serán utilizados únicamente para los fines descritos y no serán cedidos a terceros sin consentimiento previo del titular de los datos. Los usuarios podrán ejercer en cualquier momento los derechos de acceso, rectificación, cancelación y oposición en relación con sus datos personales, mediante solicitud por escrito dirigida a la dirección postal o de correo electrónico indicados en esta página.</p>
-		<p>Se informa también que se utilizan cookies para facilitar la navegación por la página y mejorar la calidad del servicio. Las cookies son pequeños archivos de información que se almacenan en el dispositivo del usuario al acceder a la página y que permiten reconocer al usuario en visitas posteriores. El usuario puede configurar su navegador para aceptar o rechazar las cookies, o para ser informado cuando se utilicen cookies.</p>
-		<p>La utilización de esta página implica la aceptación de esta política de privacidad. Se recomienda leer detenidamente esta política antes de proporcionar cualquier dato personal a través de la página. En caso de duda o de cualquier otra consulta sobre la política de privacidad, por favor póngase en contacto con nosotros a través de los medios indicados en esta página.</p>
-		<p>Para más información, por favor visite nuestra <a href="/">página web</a>.</p>
+        <h2>Collection and Use of Personal Information</h2>
+        <p>We may collect and use personal information such as your name, email address, and phone number to provide you with customer support and to improve our services.</p>
+
+        <h2>Data Safety Requirements</h2>
+        <p>CaboConsultas meets the data safety requirements set forth by Google Play. We take the protection of our users' data seriously and comply with all policies and regulations related to data privacy and security.</p>
+
+        <h2>Third-Party Services</h2>
+        <p>We may use third-party services, such as analytics or advertising networks, in our app. We ensure that these services comply with the Google Play Developer Program Policies and take steps to protect your data from unauthorized access or disclosure.</p>
+
+        <h2>Updates to Our Privacy Policy</h2>
+        <p>We may update this privacy policy from time to time to reflect changes in our practices or applicable laws. We encourage you to review this policy periodically to stay informed of how we collect, use, and protect your personal information.</p>
+
+        <h2>Contact Us</h2>
+        <p>If you have any questions or concerns about our privacy policy or the use of your personal information, please contact us at <a href="mailto:code.bit.mau@gmail.com">code.bit.mau@gmail.com</a></p>
+
 	</div>
 </body>
 </html>
